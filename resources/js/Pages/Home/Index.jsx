@@ -45,12 +45,12 @@ export default function Index({ auth, posts, suggested_follows }) {
                 </div>
                 <div className="hidden xl:block w-full lg:w-[350px] mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white shadow-sm sm:rounded-lg p-6">
-                        <p className="font-bold">Who to follow</p>
+                        <p className="text-lg font-bold">Who to follow</p>
                         {suggested_follows.map(suggested =>
                             <div key={suggested.id} className="flex items-center mt-6">
                                 <img className="w-[40px] rounded-full border-2 border-gray-800 mr-6" src="https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg" />
                                 <div className="truncate grow">
-                                    <p>{suggested.name}</p>
+                                    {suggested.name}
                                 </div>
                                 <div className="row-end-1">
                                     <SecondaryButton>+</SecondaryButton>
