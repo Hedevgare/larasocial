@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Posts/Index');
+        return Inertia::render('Home/Index');
     }
 
     /**

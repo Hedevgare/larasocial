@@ -5,7 +5,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
 export default function Post({ post }) {
-    console.log(post)
     return (
         <div className="my-4 p-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div className="flex items-center">
