@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
@@ -29,6 +30,10 @@ Route::get('/', function () {
 
 Route::get('/home', [HomeController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('home');
+
+Route::post('/follow', [FollowController::class, 'follow'])
+    ->middleware(['auth'])
+    ->name('follow');
 
 Route::resource('posts', PostController::class)
     ->only(['store'])

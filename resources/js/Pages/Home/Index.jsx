@@ -1,12 +1,12 @@
+import FollowUser from '@/Components/FollowUser';
 import InputError from '@/Components/InputError';
 import Post from '@/Components/Post';
 import PrimaryButton from '@/Components/PrimaryButton';
-import SecondaryButton from '@/Components/SecondaryButton';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
 import React from 'react';
 
-export default function Index({ auth, posts, suggested_follows }) {
+export default function Index({ auth, posts, suggested_follows, following }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         message: '',
     });
@@ -47,13 +47,16 @@ export default function Index({ auth, posts, suggested_follows }) {
                     <div className="bg-white shadow-sm sm:rounded-lg p-6">
                         <p className="text-lg font-bold">Who to follow</p>
                         {suggested_follows.map(suggested =>
+                            <FollowUser key={suggested.id} user={suggested} />
+                        )}
+                    </div>
+                    <div className="bg-white shadow-sm sm:rounded-lg p-6 mt-6">
+                        <p className="text-lg font-bold">Following</p>
+                        {following.map(suggested =>
                             <div key={suggested.id} className="flex items-center mt-6">
                                 <img className="w-[40px] rounded-full border-2 border-gray-800 mr-6" src="https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg" />
                                 <div className="truncate grow">
                                     {suggested.name}
-                                </div>
-                                <div className="row-end-1">
-                                    <SecondaryButton>+</SecondaryButton>
                                 </div>
                             </div>
                         )}
