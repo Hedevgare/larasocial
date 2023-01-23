@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
@@ -36,6 +37,10 @@ Route::post('/follow', [FollowController::class, 'follow'])
     ->name('follow');
 
 Route::resource('posts', PostController::class)
+    ->only(['store'])
+    ->middleware(['auth']);
+
+Route::resource('comments', CommentController::class)
     ->only(['store'])
     ->middleware(['auth']);
 

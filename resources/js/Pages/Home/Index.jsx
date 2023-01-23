@@ -39,7 +39,7 @@ export default function Index({ auth, posts, suggested_follows, following }) {
                     </div>
                     <div className="my-6">
                         {posts.map(post =>
-                            <Post key={post.id} post={post} />
+                            <Post key={post.id} postId={post.id} userPost={post} />
                         )}
                     </div>
                 </div>
