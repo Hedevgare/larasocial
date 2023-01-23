@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -61,5 +61,26 @@ class User extends Authenticatable
                 'following_id' => $user->id
             ]);
         }
+    }
+
+    public function getFollowingsPosts() {
+        $feed = collect();
+
+        foreach($this->following()->get() as $follow) {
+            $posts = $follow->posts()->with('user:id,name')->get();
+            $feed = $feed->merge($posts);
+        }
+
+        return $feed->sortByDesc('created_at')->values()->all();
+    }
+
+    public function getUsersToFollow($limit) {
+        $alreadyFollowing = $this->following()->pluck('users.id')->toArray();
+
+        array_push($alreadyFollowing, auth()->id());
+
+        $usersToFollow = DB::table('users')->whereNotIn('id', $alreadyFollowing)->inRandomOrder()->limit($limit)->get();
+
+        return $usersToFollow;
     }
 }
