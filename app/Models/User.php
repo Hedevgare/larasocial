@@ -72,7 +72,7 @@ class User extends Authenticatable
         $feed = collect();
 
         foreach($this->following()->get() as $follow) {
-            $posts = $follow->posts()->with('user:id,name')->get();
+            $posts = $follow->posts()->with('user:id,name,profile_photo')->get();
             $feed = $feed->merge($posts);
         }
 
