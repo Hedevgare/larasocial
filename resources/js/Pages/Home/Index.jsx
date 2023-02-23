@@ -23,7 +23,7 @@ export default function Index({ auth, posts, suggested_follows, following }) {
             <div className="flex flex-col xl:flex-row p-12">
                 <div className="hidden xl:block w-full lg:w-[350px] mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 text-center">
-                        <img className="w-[120px] m-auto rounded-full border-2 border-gray-800" src="https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg" />
+                        <img className="w-[120px] m-auto rounded-lg border-4 border-white" src={auth.user.profile_photo} />
                         <p className="mt-6">{auth.user.name}</p>
                     </div>
                 </div>
@@ -54,7 +54,7 @@ export default function Index({ auth, posts, suggested_follows, following }) {
                         <p className="text-lg font-bold">Following</p>
                         {following.map(suggested =>
                             <div key={suggested.id} className="flex items-center mt-6">
-                                <img className="w-[40px] rounded-full border-2 border-gray-800 mr-6" src="https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg" />
+                                <img className="w-[50px] rounded-full mr-6" src={suggested.profile_photo} />
                                 <div className="truncate grow">
                                     {suggested.name}
                                 </div>

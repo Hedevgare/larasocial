@@ -17,7 +17,7 @@ export default function FollowUser({ user }) {
 
     return (
         <div key={user.id} className="flex items-center mt-6">
-            <img className="w-[40px] rounded-full border-2 border-gray-800 mr-6" src="https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg" />
+            <img className="w-[50px] rounded-full mr-6" src={user.profile_photo} />
             <div className="truncate grow">
                 {user.name}
             </div>
