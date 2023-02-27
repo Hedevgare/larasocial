@@ -19,7 +19,7 @@ export default function Post({ postId, userPost }) {
 
     const loadComments = () => {
         if (!showCommentBox && comments.length <= 0) {
-            axios.get(route('posts.show', {post: data.post_id}))
+            axios.get(route('posts.show', { post: data.post_id }))
                 .then((res) => setComments(res.data.comments))
                 .catch(err => console.error("Error: " + err));
         }
@@ -51,9 +51,12 @@ export default function Post({ postId, userPost }) {
                 <p className="text-sm cursor-pointer" onClick={() => loadComments()}>Comment</p>
                 {showCommentBox &&
                     <React.Fragment>
-                        <TextInput className="w-full" value={data.message} handleChange={(e) => setData('message', e.target.value)} placeholder="Add a comment...." handleEnter={submit} />
-                        {comments.map((comment) => 
-                            <p className='p-4' key={comment.id}>{comment.message}</p>
+                        <div className='flex'>
+                            <img className="w-[40px] rounded-full border-4 border-white" src={userPost.user.profile_photo} />
+                            <TextInput parentClassName="flex-grow" className="w-full bg-gray-100" value={data.message} handleChange={(e) => setData('message', e.target.value)} placeholder="Add a comment...." handleEnter={submit} />
+                        </div>
+                        {comments.map((comment) =>
+                            <p className='mt-2 mb-2 p-4 bg-gray-100' key={comment.id}>{comment.message}</p>
                         )}
                     </React.Fragment>
                 }
