@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import TextInput from './TextInput';
 import { useForm } from '@inertiajs/react';
+import axios from 'axios';
 
 dayjs.extend(relativeTime);
 
@@ -14,14 +15,25 @@ export default function Post({ postId, userPost }) {
 
     const [showCommentBox, setShowCommentBox] = useState(false);
 
+    const [comments, setComments] = useState([]);
+
+    const loadComments = () => {
+        if (!showCommentBox && comments.length <= 0) {
+            axios.get(route('posts.show', {post: data.post_id}))
+                .then((res) => setComments(res.data.comments))
+                .catch(err => console.error("Error: " + err));
+        }
+        setShowCommentBox(!showCommentBox);
+    }
+
     const submit = (e) => {
-        e.preventDefault();
-        post(route('comments.store'), {
-            onSuccess: () => {
-                setShowCommentBox(false);
-                reset();
-            }
-        });
+        if (e.key === 'Enter') {
+            axios.post(route('comments.store'), data)
+                .then((res) => {
+                    setShowCommentBox(false);
+                    reset();
+                });
+        }
     }
 
     return (
@@ -36,11 +48,14 @@ export default function Post({ postId, userPost }) {
                 {userPost.message}
             </p>
             <div className="mt-6">
-                <p className="text-sm cursor-pointer" onClick={() => setShowCommentBox(!showCommentBox)}>Comment</p>
+                <p className="text-sm cursor-pointer" onClick={() => loadComments()}>Comment</p>
                 {showCommentBox &&
-                    <form onSubmit={submit}>
-                        <TextInput className="w-full" value={data.message} handleChange={(e) => setData('message', e.target.value)} placeholder="Add a comment..." />
-                    </form>
+                    <React.Fragment>
+                        <TextInput className="w-full" value={data.message} handleChange={(e) => setData('message', e.target.value)} placeholder="Add a comment...." handleEnter={submit} />
+                        {comments.map((comment) => 
+                            <p className='p-4' key={comment.id}>{comment.message}</p>
+                        )}
+                    </React.Fragment>
                 }
             </div>
         </div>

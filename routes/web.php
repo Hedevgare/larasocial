@@ -37,7 +37,7 @@ Route::post('/follow', [FollowController::class, 'follow'])
     ->name('follow');
 
 Route::resource('posts', PostController::class)
-    ->only(['store'])
+    ->only(['store', 'show'])
     ->middleware(['auth']);
 
 Route::resource('comments', CommentController::class)

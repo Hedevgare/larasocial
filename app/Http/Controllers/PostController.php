@@ -51,9 +51,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(int $post)
     {
-        //
+        $post = Post::with('comments')->find($post);
+        return $post;
     }
 
     /**
