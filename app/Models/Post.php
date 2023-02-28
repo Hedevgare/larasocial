@@ -9,6 +9,10 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $appends = [
+        'total_comments',
+    ];
+
     protected $fillable = [
         'message',
     ];
@@ -19,5 +23,9 @@ class Post extends Model
 
     public function comments() {
         return $this->hasMany(Comment::class);
+    }
+    
+    public function getTotalCommentsAttribute() {
+        return count($this->comments);
     }
 }

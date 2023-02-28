@@ -51,7 +51,7 @@ export default function Post({ postId, userPost }) {
                 {userPost.message}
             </p>
             <div className="mt-6">
-                <p className="text-sm cursor-pointer" onClick={() => loadComments()}>Comment</p>
+                <p className="inline text-sm cursor-pointer" onClick={() => loadComments()}>Comment {userPost.total_comments > 0 ? `(${userPost.total_comments})` : null}</p>
                 {showCommentBox &&
                     <React.Fragment>
                         <div className='flex mt-3 mb-3'>
