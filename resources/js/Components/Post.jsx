@@ -30,7 +30,10 @@ export default function Post({ postId, userPost }) {
         if (e.key === 'Enter') {
             axios.post(route('comments.store'), data)
                 .then((res) => {
-                    setShowCommentBox(false);
+                    data.id = 0;
+                    data.user = userPost.user;
+                    data.created_at = Date.now();
+                    setComments([data, ...comments]);
                     reset();
                 });
         }
@@ -39,7 +42,7 @@ export default function Post({ postId, userPost }) {
     return (
         <div className="my-4 p-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div className="flex items-center">
-                <img className="w-[40px] mr-6 rounded-full" src={userPost.user.profile_photo} />
+                <img className="w-[40px] h-[40px] mr-6 rounded-full" src={userPost.user.profile_photo} />
                 <strong className="mr-2">{userPost.user.name}</strong>
                 &middot;
                 <small className="ml-2 text-xs">{dayjs(userPost.created_at).fromNow(true)}</small>
@@ -51,12 +54,21 @@ export default function Post({ postId, userPost }) {
                 <p className="text-sm cursor-pointer" onClick={() => loadComments()}>Comment</p>
                 {showCommentBox &&
                     <React.Fragment>
-                        <div className='flex'>
-                            <img className="w-[40px] rounded-full border-4 border-white" src={userPost.user.profile_photo} />
+                        <div className='flex mt-3 mb-3'>
+                            <img className="w-[32px] h-[32px] mr-2 rounded-full" src={userPost.user.profile_photo} />
                             <TextInput parentClassName="flex-grow" className="w-full bg-gray-100" value={data.message} handleChange={(e) => setData('message', e.target.value)} placeholder="Add a comment...." handleEnter={submit} />
                         </div>
                         {comments.map((comment) =>
-                            <p className='mt-2 mb-2 p-4 bg-gray-100' key={comment.id}>{comment.message}</p>
+                            <div key={comment.id} className='flex'>
+                                <img className="w-[32px] h-[32px] mr-2 rounded-full" src={comment.user.profile_photo} />
+                                <div className='flex-grow mb-3 p-4 bg-gray-100 rounded-r-lg rounded-bl-lg'>
+                                    <div className='flex'>
+                                        <p className='flex-grow font-bold'>{comment.user.name}</p>
+                                        <small className="flex items-center text-xs">{dayjs(comment.created_at).fromNow(true)}</small>
+                                    </div>
+                                    <p className='text-sm'>{comment.message}</p>
+                                </div>
+                            </div>
                         )}
                     </React.Fragment>
                 }

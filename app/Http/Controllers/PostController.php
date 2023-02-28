@@ -53,7 +53,7 @@ class PostController extends Controller
      */
     public function show(int $post)
     {
-        $post = Post::with('comments')->find($post);
+        $post = Post::with('comments.user')->find($post);
         return $post;
     }
 
