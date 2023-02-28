@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import TextInput from './TextInput';
+import CommentIcon from '../Icons/CommentIcon';
 import { useForm } from '@inertiajs/react';
 import axios from 'axios';
+import LikeIcon from '@/Icons/LikeIcon';
 
 dayjs.extend(relativeTime);
 
@@ -51,7 +53,16 @@ export default function Post({ postId, userPost }) {
                 {userPost.message}
             </p>
             <div className="mt-6">
-                <p className="inline text-sm cursor-pointer" onClick={() => loadComments()}>Comment {userPost.total_comments > 0 ? `(${userPost.total_comments})` : null}</p>
+                <div className='flex'>
+                    <div className='flex mr-6 cursor-pointer'>
+                        <LikeIcon />
+                        <p className="inline ml-2 text-sm">Like</p>
+                    </div>
+                    <div className='flex cursor-pointer'>
+                        <CommentIcon />
+                        <p className="inline ml-2 text-sm" onClick={() => loadComments()}>Comment {userPost.total_comments > 0 ? `(${userPost.total_comments})` : null}</p>
+                    </div>
+                </div>
                 {showCommentBox &&
                     <React.Fragment>
                         <div className='flex mt-3 mb-3'>
