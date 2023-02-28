@@ -37,7 +37,7 @@ class CommentController extends Controller
     {
         $validated = $request->validate([
             'post_id' => 'required|integer',
-            'message' => 'required|string|max:255',
+            'message' => 'required|string',
         ]);
 
         $request->user()->comments()->create($validated);
