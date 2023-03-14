@@ -19,6 +19,8 @@ export default function Post({ postId, userPost }) {
 
     const [comments, setComments] = useState([]);
 
+    const [isLiked, setIsLiked] = useState(userPost.is_liked)
+
     const loadComments = () => {
         if (!showCommentBox && comments.length <= 0) {
             axios.get(route('posts.show', { post: data.post_id }))
@@ -41,6 +43,15 @@ export default function Post({ postId, userPost }) {
         }
     }
 
+    const submitLike = (e) => {
+        if(isLiked === true) {
+            console.log(`Already liked... ${isLiked}`);
+        } else {
+            axios.post(route('likes.store'), { post_id: data.post_id })
+                .then(res => setIsLiked(true));
+        }
+    }
+
     return (
         <div className="my-4 p-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div className="flex items-center">
@@ -54,9 +65,9 @@ export default function Post({ postId, userPost }) {
             </p>
             <div className="mt-6">
                 <div className='flex'>
-                    <div className='flex mr-6 cursor-pointer'>
-                        <LikeIcon />
-                        <p className="inline ml-2 text-sm">Like</p>
+                    <div className='flex mr-6 cursor-pointer' onClick={submitLike}>
+                        <LikeIcon fill={isLiked} />
+                        <p className="inline ml-2 text-sm">Like{isLiked ? 'd' : null} {userPost.total_likes > 0 ? `(${userPost.total_likes})` : null}</p>
                     </div>
                     <div className='flex cursor-pointer'>
                         <CommentIcon />

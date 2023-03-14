@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -41,6 +42,10 @@ Route::resource('posts', PostController::class)
     ->middleware(['auth']);
 
 Route::resource('comments', CommentController::class)
+    ->only(['store'])
+    ->middleware(['auth']);
+
+Route::resource('likes', LikeController::class)
     ->only(['store'])
     ->middleware(['auth']);
 

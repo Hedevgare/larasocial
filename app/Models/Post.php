@@ -11,6 +11,8 @@ class Post extends Model
 
     protected $appends = [
         'total_comments',
+        'total_likes',
+        'is_liked',
     ];
 
     protected $fillable = [
@@ -24,8 +26,24 @@ class Post extends Model
     public function comments() {
         return $this->hasMany(Comment::class);
     }
+
+    public function likes() {
+        return $this->hasMany(Like::class);
+    }
+
+    public function isLiked() {
+        return $this->likes()->where('user_id', auth()->user()->id)->exists();
+    }
     
     public function getTotalCommentsAttribute() {
         return count($this->comments);
+    }
+
+    public function getTotalLikesAttribute() {
+        return count($this->likes);
+    }
+
+    public function getIsLikedAttribute() {
+        return $this->isLiked();
     }
 }
