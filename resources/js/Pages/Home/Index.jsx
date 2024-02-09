@@ -4,16 +4,27 @@ import Post from '@/Components/Post';
 import PrimaryButton from '@/Components/PrimaryButton';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
-import React from 'react';
+import React, { useRef } from 'react';
 
 export default function Index({ auth, posts, suggested_follows, following }) {
+    const textAreaRef = useRef(null);
+
     const { data, setData, post, processing, errors, reset } = useForm({
         message: '',
     });
 
+    const onChangePost = (e) => {
+        e.target.style.height = 'inherit';
+        e.target.style.height = `${e.target.scrollHeight}px`;
+        setData('message', e.target.value);
+    }
+
     const submit = (e) => {
         e.preventDefault();
-        post(route('posts.store'), { onSuccess: () => reset() });
+        post(route('posts.store'), { onSuccess: () => {
+            reset();
+            textAreaRef.current.style.height = 'inherit';
+        } });
     }
 
     return (
@@ -31,7 +42,7 @@ export default function Index({ auth, posts, suggested_follows, following }) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6">
                             <form onSubmit={submit}>
-                                <textarea className="w-full border-gray-300 rounded-lg h-24" placeholder="Share your thoughts..." value={data.message} onChange={(e) => setData('message', e.target.value)}></textarea>
+                                <textarea ref={textAreaRef} className="w-full border-none resize-none focus:ring-0" placeholder="Share your thoughts..." value={data.message} onChange={(e) => onChangePost(e)}></textarea>
                                 <InputError message={errors.message} />
                                 <PrimaryButton className='mt-4' processing={processing}>Post</PrimaryButton>
                             </form>
