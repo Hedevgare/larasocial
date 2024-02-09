@@ -2,9 +2,10 @@ import FollowUser from '@/Components/FollowUser';
 import InputError from '@/Components/InputError';
 import Post from '@/Components/Post';
 import PrimaryButton from '@/Components/PrimaryButton';
+import Toast from '@/Components/Toast';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 export default function Index({ auth, posts, suggested_follows, following }) {
     const textAreaRef = useRef(null);
@@ -12,6 +13,17 @@ export default function Index({ auth, posts, suggested_follows, following }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         message: '',
     });
+
+    const [showToast, setShowToast] = useState(false);
+
+    useEffect(() => {
+        if(showToast) {
+            const timeout = setTimeout(() => setShowToast(false), 5000);
+            return () => {
+                clearTimeout(timeout);
+            };
+        }
+    }, [showToast]);
 
     const onChangePost = (e) => {
         e.target.style.height = 'inherit';
@@ -23,6 +35,7 @@ export default function Index({ auth, posts, suggested_follows, following }) {
         e.preventDefault();
         post(route('posts.store'), { onSuccess: () => {
             reset();
+            setShowToast(true);
             textAreaRef.current.style.height = 'inherit';
         } });
     }
@@ -30,6 +43,8 @@ export default function Index({ auth, posts, suggested_follows, following }) {
     return (
         <Authenticated auth={auth}>
             <Head title="Posts" />
+
+            {showToast ? <Toast message="New post created!" onClose={() => setShowToast(false)} /> : null}
 
             <div className="flex flex-col xl:flex-row p-12">
                 <div className="hidden xl:block w-full lg:w-[350px] mx-auto sm:px-6 lg:px-8">
