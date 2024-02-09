@@ -58,7 +58,7 @@ export default function Post({ postId, userPost }) {
                 <img className="w-[40px] h-[40px] mr-6 rounded-full" src={userPost.user.profile_photo} />
                 <strong className="mr-2">{userPost.user.name}</strong>
                 &middot;
-                <small className="ml-2 text-xs">{dayjs(userPost.created_at).fromNow(true)}</small>
+                <small className="ml-2 text-xs">{dayjs(userPost.created_at).fromNow(true)} ago</small>
             </div>
             <p className="pt-6 text-gray-600">
                 {userPost.message}
