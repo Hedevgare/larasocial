@@ -16,12 +16,12 @@ export default function Welcome(props) {
                                 Log in
                             </Link>
 
-                            <Link
+                            {/* <Link
                                 href={route('register')}
                                 className="ml-4 text-sm text-gray-700 dark:text-gray-500 underline"
                             >
                                 Register
-                            </Link>
+                            </Link> */}
                         </>
                     )}
                 </div>
