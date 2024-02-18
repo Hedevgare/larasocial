@@ -26,7 +26,7 @@ export default function Welcome(props) {
                     )}
                 </div>
 
-                <p>Larasocial</p>
+                <p className='text-white'>Larasocial</p>
             </div>
         </>
     );

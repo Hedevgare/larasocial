@@ -86,7 +86,7 @@ export default function Post({ postId, userPost }) {
                                 <div className='flex-grow mb-3 p-4 bg-gray-100 rounded-r-lg rounded-bl-lg'>
                                     <div className='flex'>
                                         <p className='flex-grow font-bold'>{comment.user.name}</p>
-                                        <small className="flex items-center text-xs">{dayjs(comment.created_at).fromNow(true)}</small>
+                                        <small className="flex items-center text-xs">{dayjs(comment.created_at).fromNow(true)} ago</small>
                                     </div>
                                     <p className='text-sm'>{comment.message}</p>
                                 </div>
