@@ -6,10 +6,11 @@ import CommentIcon from '../Icons/CommentIcon';
 import { useForm } from '@inertiajs/react';
 import axios from 'axios';
 import LikeIcon from '@/Icons/LikeIcon';
+import Comment from './Comment';
 
 dayjs.extend(relativeTime);
 
-export default function Post({ postId, userPost }) {
+export default function Post({ postId, userPost, profilePhoto }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         post_id: postId,
         message: '',
@@ -77,20 +78,11 @@ export default function Post({ postId, userPost }) {
                 {showCommentBox &&
                     <React.Fragment>
                         <div className='flex mt-3 mb-3'>
-                            <img className="w-[32px] h-[32px] mr-2 rounded-full" src={userPost.user.profile_photo} />
+                            <img className="w-[32px] h-[32px] mr-2 rounded-full" src={profilePhoto} />
                             <TextInput parentClassName="flex-grow" className="w-full bg-gray-100" value={data.message} handleChange={(e) => setData('message', e.target.value)} placeholder="Add a comment...." handleEnter={submit} />
                         </div>
                         {comments.map((comment) =>
-                            <div key={comment.id} className='flex'>
-                                <img className="w-[32px] h-[32px] mr-2 rounded-full" src={comment.user.profile_photo} />
-                                <div className='flex-grow mb-3 p-4 bg-gray-100 rounded-r-lg rounded-bl-lg'>
-                                    <div className='flex'>
-                                        <p className='flex-grow font-bold'>{comment.user.name}</p>
-                                        <small className="flex items-center text-xs">{dayjs(comment.created_at).fromNow(true)} ago</small>
-                                    </div>
-                                    <p className='text-sm'>{comment.message}</p>
-                                </div>
-                            </div>
+                            <Comment key={comment.id} comment={comment} />
                         )}
                     </React.Fragment>
                 }
