@@ -54,7 +54,7 @@ export default function Post({ postId, userPost, profilePhoto }) {
     }
 
     return (
-        <div className="my-4 p-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div className="my-4 p-6 bg-white overflow-hidden shadow-sm">
             <div className="flex items-center">
                 <img className="w-[40px] h-[40px] mr-6 rounded-full" src={userPost.user.profile_photo} />
                 <strong className="mr-2">{userPost.user.name}</strong>
