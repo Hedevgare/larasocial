@@ -42,8 +42,11 @@ class CommentController extends Controller
 
         $comment = $request->user()->comments()->create($validated);
 
-        // return redirect(route('home'));
-        return response()->json($comment->load('user'));
+        $response = $comment->load(['user' => function($query) {
+            $query->select('id', 'name', 'profile_photo');
+        }]);
+        
+        return response()->json($response);
     }
 
     /**

@@ -35,10 +35,7 @@ export default function Post({ postId, userPost, profilePhoto }) {
         if (e.key === 'Enter') {
             axios.post(route('comments.store'), data)
                 .then((res) => {
-                    data.id = res.data.id;
-                    data.user = res.data.user;
-                    data.created_at = res.data.created_at;
-                    setComments([data, ...comments]);
+                    setComments([res.data, ...comments]);
                     reset();
                 });
         }
