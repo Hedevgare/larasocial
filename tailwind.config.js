@@ -14,6 +14,22 @@ module.exports = {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
+            backgroundColor: {
+                'larasocial-primary': '#111827',
+                'larasocial-secondary': '#3772FF'
+            },
+            borderColor: {
+                'larasocial-primary': '#111827',
+                'larasocial-secondary': '#3772FF'
+            },
+            ringColor: {
+                'larasocial-primary': '#111827',
+                'larasocial-secondary': '#3772FF'
+            },
+            textColor: {
+                'larasocial-primary': '#111827',
+                'larasocial-secondary': '#3772FF'
+            },
         },
     },
 

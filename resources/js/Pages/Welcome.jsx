@@ -14,18 +14,18 @@ export default function Welcome(props) {
                     <p className='text-white py-4'>Connect with your friends and the world around you.</p>
                     <div className="py-6">
                         {props.auth.user ? (
-                            <Link href={route('home')} className="text-sm text-white bg-indigo-700 px-8 py-2 rounded">
+                            <Link href={route('home')} className="text-sm text-white bg-larasocial-secondary px-8 py-2 rounded">
                                 Continue
                             </Link>
                         ) : (
                             <div className='space-x-4'>
-                                <Link href={route('login')} className="text-sm text-white bg-indigo-700 px-8 py-2 rounded">
+                                <Link href={route('login')} className="text-sm text-white bg-larasocial-secondary px-8 py-2 rounded">
                                     Log in
                                 </Link>
 
                                 <Link
                                     href="#"
-                                    className="text-sm text-white bg-indigo-700 px-8 py-2 rounded"
+                                    className="text-sm text-white bg-larasocial-secondary px-8 py-2 rounded"
                                 >
                                     Register
                                 </Link>
