@@ -50,16 +50,16 @@ export default function Index({ auth, posts, suggested_follows, following }) {
 
             {showToast ? <Toast message="New post created!" onClose={() => setShowToast(false)} /> : null}
 
-            <div className="flex flex-col xl:flex-row p-12 2xl:pr-36 2xl:pl-36 xl:pr-20 xl:pl-20">
+            <div className="flex flex-col md:flex-row p-12 2xl:pr-36 2xl:pl-36 xl:pr-20 xl:pl-20">
                 {/* Left Column */}
-                <div className="hidden xl:block w-full xl:w-[300px] mx-auto sm:px-6 xl:px-4">
+                <div className="flex-1 hidden md:block w-full xl:w-[300px] mx-auto sm:px-6 xl:px-4">
                     <div className="bg-white overflow-hidden shadow-sm p-6 text-center">
                         <img className="w-[120px] m-auto rounded-lg border-4 border-white" src={auth.user.profile_photo} />
                         <p className="mt-6">{auth.user.name}</p>
                     </div>
                 </div>
                 {/* Center */}
-                <div className="flex-1 mx-auto sm:px-6 xl:px-4">
+                <div className="flex-[3_3_0%] mx-auto sm:px-6 xl:px-4">
                     <div className="bg-white overflow-hidden shadow-sm">
                         {/* <div className="p-6"> */}
                         <form onSubmit={submit}>
@@ -81,7 +81,7 @@ export default function Index({ auth, posts, suggested_follows, following }) {
                     </div>
                 </div>
                 {/* Right Column */}
-                <div className="hidden xl:block w-full xl:w-[350px] mx-auto sm:px-6 xl:px-4">
+                <div className="flex-1 hidden xl:block w-full xl:w-[350px] mx-auto sm:px-6 xl:px-4">
                     <div className="bg-white shadow-sm p-6">
                         <p className="text-lg font-bold">Who to follow</p>
                         {suggested_follows.map(suggested =>

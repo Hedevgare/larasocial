@@ -40,9 +40,10 @@ class CommentController extends Controller
             'message' => 'required|string',
         ]);
 
-        $request->user()->comments()->create($validated);
+        $comment = $request->user()->comments()->create($validated);
 
-        return redirect(route('home'));
+        // return redirect(route('home'));
+        return response()->json($comment->load('user'));
     }
 
     /**
