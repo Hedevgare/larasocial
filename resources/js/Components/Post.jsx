@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import TextInput from './TextInput';
-import CommentIcon from '../Icons/CommentIcon';
 import { useForm } from '@inertiajs/react';
 import axios from 'axios';
-import LikeIcon from '@/Icons/LikeIcon';
 import Comment from './Comment';
 
 dayjs.extend(relativeTime);
 
-export default function Post({ postId, userPost, profilePhoto }) {
+export default function Post({ postId, userPost }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         post_id: postId,
         message: '',
@@ -42,7 +40,7 @@ export default function Post({ postId, userPost, profilePhoto }) {
     }
 
     const submitLike = (e) => {
-        if(isLiked === true) {
+        if (isLiked === true) {
             console.log(`Already liked... ${isLiked}`);
         } else {
             axios.post(route('likes.store'), { post_id: data.post_id })
@@ -53,29 +51,31 @@ export default function Post({ postId, userPost, profilePhoto }) {
     return (
         <div className="my-4 p-6 bg-white overflow-hidden shadow-sm">
             <div className="flex items-center">
-                <img className="w-[40px] h-[40px] mr-6 rounded-full" src={userPost.user.profile_photo} />
-                <strong className="mr-2">{userPost.user.name}</strong>
-                &middot;
-                <small className="ml-2 text-xs">{dayjs(userPost.created_at).fromNow(true)} ago</small>
+                <img className="w-[40px] h-[40px] mr-2 rounded-full" src={userPost.user.profile_photo} />
+                <div className='flex flex-col'>
+                    <strong className="mr-2">{userPost.user.name}</strong>
+                    <small className="text-xs">published {dayjs(userPost.created_at).fromNow(true)} ago</small>
+                </div>
             </div>
             <p className="pt-6 text-gray-600">
                 {userPost.message}
             </p>
             <div className="mt-6">
-                <div className='flex'>
-                    <div className='flex mr-6 cursor-pointer' onClick={submitLike}>
-                        <LikeIcon fill={isLiked} />
-                        <p className="inline ml-2 text-sm">Like{isLiked ? 'd' : null} {userPost.total_likes > 0 ? `(${userPost.total_likes})` : null}</p>
+                <div className='flex space-x-4'>
+                    <div className='flex cursor-pointer bg-gray-100 p-2 rounded leading-5' onClick={submitLike}>
+                        {isLiked ? <i className="bi bi-heart-fill text-gray-500"></i> : <i className="bi bi-heart text-gray-500"></i>}
+                        <p className="hidden md:inline ml-2 text-sm text-gray-500">Like{isLiked ? 'd' : null} {userPost.total_likes > 0 ? `(${userPost.total_likes})` : null}</p>
                     </div>
-                    <div className='flex cursor-pointer'>
-                        <CommentIcon />
-                        <p className="inline ml-2 text-sm" onClick={() => loadComments()}>Comment {userPost.total_comments > 0 ? `(${userPost.total_comments})` : null}</p>
+                    <div className='flex cursor-pointer bg-gray-100 p-2 rounded leading-5'>
+                        <i className="bi bi-chat text-gray-500"></i>
+                        <p className="hidden md:inline ml-2 text-sm text-gray-500" onClick={() => loadComments()}>Comment {userPost.total_comments > 0 ? `(${userPost.total_comments})` : null}</p>
                     </div>
                 </div>
                 {showCommentBox &&
                     <React.Fragment>
+                        <hr className='my-5' />
                         <div className='flex mt-3 mb-3'>
-                            <img className="w-[32px] h-[32px] mr-2 rounded-full" src={profilePhoto} />
+                            {/* <img className="w-[32px] h-[32px] mr-2 rounded-full" src={profilePhoto} /> */}
                             <TextInput parentClassName="flex-grow" className="w-full bg-gray-100" value={data.message} handleChange={(e) => setData('message', e.target.value)} placeholder="Add a comment...." handleEnter={submit} />
                         </div>
                         {comments.map((comment) =>
