@@ -46,7 +46,7 @@ Route::resource('comments', CommentController::class)
     ->middleware(['auth']);
 
 Route::resource('likes', LikeController::class)
-    ->only(['store'])
+    ->only(['store', 'destroy'])
     ->middleware(['auth']);
 
 Route::middleware('auth')->group(function () {

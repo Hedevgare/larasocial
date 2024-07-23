@@ -39,9 +39,9 @@ class LikeController extends Controller
             'post_id' => 'required|integer',
         ]);
 
-        $request->user()->likes()->create($validated);
+        $like = $request->user()->likes()->create($validated);
 
-        return redirect(route('home'));
+        return response()->json($like, 201);
     }
 
     /**
@@ -86,6 +86,8 @@ class LikeController extends Controller
      */
     public function destroy(Like $like)
     {
-        //
+        $like->delete();
+
+        return response()->json(null, 204);
     }
 }

@@ -12,7 +12,7 @@ class Post extends Model
     protected $appends = [
         'total_comments',
         'total_likes',
-        'is_liked',
+        'user_like',
     ];
 
     protected $fillable = [
@@ -31,8 +31,14 @@ class Post extends Model
         return $this->hasMany(Like::class);
     }
 
-    public function isLiked() {
-        return $this->likes()->where('user_id', auth()->user()->id)->exists();
+    /**
+     * Check if the authenticated user liked the post
+     * 
+     * @return int|null
+     */
+    public function userLike() {
+        $like = $this->likes()->where('user_id', auth()->user()->id)->first();
+        return $like ? $like->id : null;
     }
     
     public function getTotalCommentsAttribute() {
@@ -43,7 +49,12 @@ class Post extends Model
         return count($this->likes);
     }
 
-    public function getIsLikedAttribute() {
-        return $this->isLiked();
+    /**
+     * Get the user_like attribute
+     * 
+     * @return int|null
+     */
+    public function getUserLikeAttribute() {
+        return $this->userLike();
     }
 }

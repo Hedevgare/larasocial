@@ -18,7 +18,7 @@ export default function Post({ postId, userPost }) {
 
     const [comments, setComments] = useState([]);
 
-    const [isLiked, setIsLiked] = useState(userPost.is_liked)
+    const [likeId, setLikeId] = useState(userPost.user_like)
 
     const loadComments = () => {
         if (!showCommentBox && comments.length <= 0) {
@@ -39,12 +39,23 @@ export default function Post({ postId, userPost }) {
         }
     }
 
-    const submitLike = (e) => {
-        if (isLiked === true) {
-            console.log(`Already liked... ${isLiked}`);
+    /**
+     * Like or unlike a post and update the total likes count accordingly
+     */
+    const submitLike = () => {
+        if (likeId) {
+            axios.delete(route('likes.destroy', { like: likeId }))
+                .then(() => {
+                    setLikeId(null);
+                    userPost.total_likes--;
+                })
+                .catch(err => console.error(err));
         } else {
             axios.post(route('likes.store'), { post_id: data.post_id })
-                .then(res => setIsLiked(true));
+                .then(res => {
+                    setLikeId(res.data.id);
+                    userPost.total_likes++;
+                });
         }
     }
 
@@ -63,8 +74,8 @@ export default function Post({ postId, userPost }) {
             <div className="mt-6">
                 <div className='flex space-x-4'>
                     <div className='flex cursor-pointer bg-gray-100 p-2 rounded leading-5' onClick={submitLike}>
-                        {isLiked ? <i className="bi bi-heart-fill text-gray-500"></i> : <i className="bi bi-heart text-gray-500"></i>}
-                        <p className="hidden md:inline ml-2 text-sm text-gray-500">Like{isLiked ? 'd' : null} {userPost.total_likes > 0 ? `(${userPost.total_likes})` : null}</p>
+                        {likeId ? <i className="bi bi-heart-fill text-gray-500"></i> : <i className="bi bi-heart text-gray-500"></i>}
+                        <p className="hidden md:inline ml-2 text-sm text-gray-500">Like{likeId ? 'd' : null} {userPost.total_likes > 0 ? `(${userPost.total_likes})` : null}</p>
                     </div>
                     <div className='flex cursor-pointer bg-gray-100 p-2 rounded leading-5'>
                         <i className="bi bi-chat text-gray-500"></i>
